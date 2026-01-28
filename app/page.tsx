@@ -486,6 +486,7 @@ export default function Home() {
                   </p>
                   <p className='max-w-4xl text-center text-base leading-relaxed tracking-normal text-muted-foreground sm:text-lg'>
                     I have years of experience interacting with different types of software and infrastructure in diverse environments and teams, and I love learning new things, architecturing useful tools, and tinkering with new technologies.
+                    <br>
                   </p>
                 </div>
               </div>
