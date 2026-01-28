@@ -463,11 +463,12 @@ export default function Home() {
                   Natural{' '}
                   <span className='font-medium text-yellow-600 dark:text-purple-400'>
                     problem solver
-                  </span>{' '}
-                  and{' '}
+                  </span>
+                  {' '}and{' '}
                   <span className='font-medium text-yellow-600 dark:text-purple-400'>
                     proactive
-                  </span>{' '}
+                  </span>
+                  {' '}
                   <span className='underline'>builder</span> that treats{' '}
                   <span className='font-medium text-yellow-600 dark:text-purple-400'>
                     pragmatism
@@ -479,8 +480,8 @@ export default function Home() {
                   , and{' '}
                   <span className='font-medium text-yellow-600 dark:text-purple-400'>
                     agility
-                  </span>{' '}
-                  as{' '}
+                  </span>
+                  {' '}as{' '}
                   <span className='underline'>priorities</span>.
                 </p>
                 <p className='max-w-4xl text-center text-base leading-relaxed tracking-normal text-muted-foreground sm:text-lg'>
