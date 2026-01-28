@@ -476,7 +476,7 @@ export default function Home() {
                   <span className='font-medium text-yellow-600 dark:text-purple-400'>
                     dynamic modern solutions
                   </span>
-                  , and</span>{' '}
+                  , and{' '}
                   <span className='font-medium text-yellow-600 dark:text-purple-400'>
                     agility
                   </span>
