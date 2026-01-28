@@ -458,6 +458,22 @@ export default function Home() {
 
               <SingleRoleDisplay />
 
+              <div className='mb-0'>
+                <div className='text-center'>
+                  <span className='text-sm font-medium tracking-normal'>
+                    <a
+                      href='https://42.fr'
+                      target='_blank'
+                      rel='noopener noreferrer'
+                      className='text-yellow-600 underline decoration-dotted underline-offset-4 transition-colors hover:text-yellow-500 dark:text-purple-400 dark:hover:text-purple-300'
+                    >
+                      42 Paris
+                    </a>{' '}
+                    Graduate
+                  </span>
+                </div>
+              </div>
+              
               <div className='mb-6 flex justify-center px-2 sm:mb-0 sm:px-0'>
                 <div className='flex flex-col gap-4'>
                   <p className='max-w-4xl text-center text-base leading-relaxed tracking-normal text-muted-foreground sm:text-lg'>
@@ -492,22 +508,6 @@ export default function Home() {
               </div>
               <div className='mb-4 sm:mb-6'>
                 <SkillsList />
-              </div>
-
-              <div className='mb-0'>
-                <div className='text-center'>
-                  <span className='text-sm font-medium tracking-normal'>
-                    <a
-                      href='https://42.fr'
-                      target='_blank'
-                      rel='noopener noreferrer'
-                      className='text-yellow-600 underline decoration-dotted underline-offset-4 transition-colors hover:text-yellow-500 dark:text-purple-400 dark:hover:text-purple-300'
-                    >
-                      42 Paris
-                    </a>{' '}
-                    Graduate
-                  </span>
-                </div>
               </div>
             </div>
           </div>
