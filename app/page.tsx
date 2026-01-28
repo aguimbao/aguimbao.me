@@ -25,7 +25,7 @@ const socialLinks = [
   },
   {
     name: 'GitHub',
-    href: 'https://github.com/abguimba',
+    href: 'https://github.com/aguimbao',
     icon: Github,
   },
   {
@@ -41,13 +41,8 @@ const socialLinks = [
   },
   {
     name: 'Email',
-    href: 'mailto:abrahamguimbao@proton.me',
+    href: 'mailto:abraham@aguimbao.me',
     icon: Mail,
-  },
-  {
-    name: 'Phone',
-    href: 'tel:+33695656958',
-    icon: Phone,
   },
 ];
 
@@ -55,7 +50,8 @@ const roles = [
   'Site Reliability Engineer',
   'Infrastructure Engineer',
   'Platform Engineer',
-  'Back-end Engineer',
+  'Full-Stack Engineer',
+  'Back-End Engineer',
   'Network Engineer',
   'DevOps Engineer',
   'DevSecOps Engineer',
@@ -70,7 +66,8 @@ const roles = [
 
 const skills = [
   'Infrastructure',
-  'Back-end',
+  'Full-Stack',
+  'Back-End',
   'Networking',
   'DevOps',
   'Systems',
@@ -79,8 +76,7 @@ const skills = [
   'AI',
   'Web3',
   'GameDev',
-  'Cybersecurity',
-  'OSS',
+  'Cybersec'
 ];
 
 function ThemeToggle({
@@ -464,23 +460,29 @@ export default function Home() {
 
               <div className='mb-6 flex justify-center px-2 sm:mb-0 sm:px-0'>
                 <p className='max-w-4xl text-center text-base leading-relaxed tracking-normal text-muted-foreground sm:text-lg'>
+                  Natural{' '}
                   <span className='font-medium text-yellow-600 dark:text-purple-400'>
-                    Curious
+                    problem solver
                   </span>
-                  ,{' '}
-                  <span className='font-medium text-yellow-600 dark:text-purple-400'>
-                    hard-working
-                  </span>
-                  ,{' '}
-                  <span className='font-medium text-yellow-600 dark:text-purple-400'>
-                    passionate
-                  </span>
-                  , and{' '}
+                   and{' '}
                   <span className='font-medium text-yellow-600 dark:text-purple-400'>
                     proactive
-                  </span>{' '}
-                  <span className='underline'>technology enthusiast</span> with
-                  a diverse skill set.
+                  </span>
+                  <span className='underline'>builder</span> that treats
+                  <span className='font-medium text-yellow-600 dark:text-purple-400'>
+                    pragmatism
+                  </span>
+                  ,{' '}
+                  <span className='font-medium text-yellow-600 dark:text-purple-400'>
+                    dynamic modern solutions
+                  </span>
+                  , and</span>{' '}
+                  <span className='font-medium text-yellow-600 dark:text-purple-400'>
+                    agility
+                  </span>
+                  as
+                  <span className='underline'>priorities</span>
+                  I have years of experience interacting with different types of software and infrastructure in diverse environments and teams, and I love learning new things, architecturing useful tools, and tinkering with new technologies.
                   <br className='hidden sm:block' />
                   <br />
                 </p>
