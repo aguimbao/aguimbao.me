@@ -478,7 +478,7 @@ export default function Home() {
               
                 <div className='mb-6 flex justify-center px-2 sm:mb-0 sm:px-0'>
                   <div className='flex flex-col gap-4'>
-                    <p className='max-w-4xl text-center text-sm leading-relaxed tracking-normal text-muted-foreground sm:text-base'>
+                    <p className='max-w-4xl text-center text-xs leading-relaxed tracking-normal text-muted-foreground sm:text-sm'>
                       Natural{' '}
                       <span className='font-medium text-yellow-600 dark:text-purple-400'>
                         problem solver
@@ -502,7 +502,7 @@ export default function Home() {
                       as{' '}
                       <span className='underline'>priorities</span>.
                     </p>
-                    <p className='max-w-4xl text-center text-sm leading-relaxed tracking-normal text-muted-foreground sm:text-base'>
+                    <p className='max-w-4xl text-center text-xs leading-relaxed tracking-normal text-muted-foreground sm:text-sm'>
                       I have years of experience interacting with different types of software and infrastructure in diverse environments and teams, and I love learning new things, architecturing useful tools, and tinkering with new technologies.
                     </p>
                     <br />
