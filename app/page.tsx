@@ -473,6 +473,8 @@ export default function Home() {
                   </span>
                 </div>
               </div>
+
+              <br />
               
               <div className='mb-6 flex justify-center px-2 sm:mb-0 sm:px-0'>
                 <div className='flex flex-col gap-4'>
