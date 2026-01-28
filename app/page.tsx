@@ -30,7 +30,7 @@ const socialLinks = [
   },
   {
     name: 'Resume',
-    href: 'https://storage.rxresu.me/clpopswdi025g84ec1rapzplq/resumes/abraham-guimbao.pdf',
+    href: 'https://rxresu.me/aguimbao/cv',
     icon: FileText,
   },
   {
@@ -464,11 +464,12 @@ export default function Home() {
                   <span className='font-medium text-yellow-600 dark:text-purple-400'>
                     problem solver
                   </span>
-                   and{' '}
+                  {' '}and{' '}
                   <span className='font-medium text-yellow-600 dark:text-purple-400'>
                     proactive
                   </span>
-                  <span className='underline'>builder</span> that treats
+                  {' '}
+                  <span className='underline'>builder</span> that treats{' '}
                   <span className='font-medium text-yellow-600 dark:text-purple-400'>
                     pragmatism
                   </span>
@@ -480,11 +481,11 @@ export default function Home() {
                   <span className='font-medium text-yellow-600 dark:text-purple-400'>
                     agility
                   </span>
-                  as
-                  <span className='underline'>priorities</span>
+                  {' '}as{' '}
+                  <span className='underline'>priorities</span>.
+                </p>
+                <p className='max-w-4xl text-center text-base leading-relaxed tracking-normal text-muted-foreground sm:text-lg'>
                   I have years of experience interacting with different types of software and infrastructure in diverse environments and teams, and I love learning new things, architecturing useful tools, and tinkering with new technologies.
-                  <br className='hidden sm:block' />
-                  <br />
                 </p>
               </div>
 
