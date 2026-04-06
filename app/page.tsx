@@ -35,7 +35,7 @@ const socialLinks = [
   },
   {
     name: 'Schedule Meeting',
-    href: 'https://calendar.google.com/calendar/appointments/schedules/AcZssZ14mGOqXTtYVDzQ6r4tco-wtsowz-4rPJMTnFneYtdHjXoRmQhGRo0XJjInnFjGRi8VFOAhJxjO?gv=true',
+    href: 'https://calendar.proton.me/bookings#_BNiGErTh7kLwK8Gi9vAPweka89k9wPJy_GBU8NZ-SI=',
     icon: Calendar,
     isPopup: true,
   },
