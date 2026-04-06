@@ -115,15 +115,14 @@ function ThemeToggle({
 }
 
 function MeteorRain({ isDark }: { isDark: boolean }) {
-  const [meteors, setMeteors] = useState<
-    Array<{
-      id: number;
-      left: number;
-      top: number;
-      duration: number;
-    }>
-  >([]);
-  const [isMobile, setIsMobile] = useState(false);
+  type Meteor = {
+    id: number;
+    left: number;
+    top: number;
+    duration: number;
+  };
+
+  const [meteors, setMeteors] = useState<Meteor[]>([]);
 
   useEffect(() => {
     const checkMobile = () => window.innerWidth < 640;
