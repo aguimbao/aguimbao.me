@@ -8,7 +8,6 @@ import {
   Sun,
   Moon,
   Calendar,
-  X,
 } from 'lucide-react';
 import { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
@@ -36,7 +35,6 @@ const socialLinks = [
     name: 'Schedule Meeting',
     href: BOOKING_URL,
     icon: Calendar,
-    isPopup: true,
   },
   {
     name: 'Email',
@@ -236,7 +234,6 @@ function SingleRoleDisplay() {
 export default function Home() {
   const [isDark, setIsDark] = useState(false);
   const [mounted, setMounted] = useState(false);
-  const [modalOpen, setModalOpen] = useState(false);
 
   useEffect(() => {
     setMounted(true);
@@ -253,17 +250,6 @@ export default function Home() {
       ? 'dark'
       : 'light';
   }, []);
-
-  useEffect(() => {
-    if (!modalOpen) return;
-    const onKey = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') setModalOpen(false);
-    };
-    window.addEventListener('keydown', onKey);
-    return () => {
-      window.removeEventListener('keydown', onKey);
-    };
-  }, [modalOpen]);
 
   const toggleTheme = () => {
     const newIsDark = !isDark;
@@ -310,23 +296,6 @@ export default function Home() {
                     >
                       <Icon />
                     </Link>
-                  );
-                }
-
-                if (link.isPopup) {
-                  return (
-                    <button
-                      type='button'
-                      key={link.name}
-                      onClick={() => {
-                        setModalOpen(true);
-                      }}
-                      className='social-icon'
-                      title={link.name}
-                      aria-label='Open booking modal'
-                    >
-                      <Icon />
-                    </button>
                   );
                 }
 
@@ -397,37 +366,6 @@ export default function Home() {
           </div>
         </article>
       </main>
-
-      {modalOpen && (
-        <div className='fixed inset-0 z-50 flex items-center justify-center bg-black/80 p-4'>
-          <div className='relative max-h-[90vh] w-full max-w-4xl overflow-hidden rounded-lg border border-border bg-card shadow-2xl'>
-            <div className='flex items-center justify-between border-b border-border px-4 py-3'>
-              <h2 className='text-lg font-semibold text-foreground'>
-                Schedule a Meeting
-              </h2>
-              <button
-                type='button'
-                onClick={() => {
-                  setModalOpen(false);
-                }}
-                className='flex h-8 w-8 items-center justify-center rounded-lg text-muted-foreground transition-colors hover:bg-accent hover:text-foreground'
-                aria-label='Close modal'
-              >
-                <X className='h-4 w-4' />
-              </button>
-            </div>
-            <div className='h-[600px] bg-white'>
-              <iframe
-                src={BOOKING_URL}
-                className='h-full w-full border-0'
-                title='Schedule Meeting'
-                // eslint-disable-next-line @eslint-react/dom/no-unsafe-iframe-sandbox -- allow-same-origin required for Proton Calendar booking
-                sandbox='allow-scripts allow-forms allow-popups allow-same-origin'
-              />
-            </div>
-          </div>
-        </div>
-      )}
     </div>
   );
 }
