@@ -5,12 +5,10 @@ import {
   Linkedin,
   Mail,
   FileText,
-  MapPin,
-  Check,
   Sun,
   Moon,
   Calendar,
-  Briefcase,
+  X,
 } from 'lucide-react';
 import { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
@@ -91,19 +89,19 @@ function ThemeToggle({
     <button
       type='button'
       onClick={onToggle}
-      className='fixed right-4 top-4 z-[9999] flex h-10 w-10 items-center justify-center rounded-lg border border-yellow-600/40 bg-card shadow-lg transition-all duration-300 hover:scale-110 hover:shadow-xl dark:border-purple-400/40 sm:right-6 sm:top-6 sm:h-12 sm:w-12'
+      className='social-icon'
       aria-label='Toggle theme'
     >
-      <div className='relative h-5 w-5 sm:h-6 sm:w-6'>
+      <div className='relative h-4 w-4'>
         <Sun
-          className={`absolute inset-0 h-5 w-5 text-yellow-600 transition-all duration-300 sm:h-6 sm:w-6 ${
+          className={`absolute inset-0 h-4 w-4 transition-all duration-300 ${
             isDark
               ? 'rotate-90 scale-0 opacity-0'
               : 'rotate-0 scale-100 opacity-100'
           }`}
         />
         <Moon
-          className={`absolute inset-0 h-5 w-5 text-purple-400 transition-all duration-300 sm:h-6 sm:w-6 ${
+          className={`absolute inset-0 h-4 w-4 transition-all duration-300 ${
             isDark
               ? 'rotate-0 scale-100 opacity-100'
               : '-rotate-90 scale-0 opacity-0'
@@ -114,175 +112,123 @@ function ThemeToggle({
   );
 }
 
-function MeteorRain({ isDark }: { isDark: boolean }) {
-  type Meteor = {
-    id: number;
-    left: number;
-    top: number;
-    duration: number;
-  };
-
-  const [meteors, setMeteors] = useState<Meteor[]>([]);
-
-  useEffect(() => {
-    const checkMobile = () => window.innerWidth < 640;
-    setIsMobile(checkMobile());
-
-    const meteorArray = [];
-    const meteorCount = checkMobile() ? 2 : 3;
-
-    for (let i = 1; i <= meteorCount; i++) {
-      meteorArray.push({
-        id: i,
-        left: Math.random() * 90 + 9,
-        top: Math.random() * 250 + 50,
-        duration: Math.random() * 6 + 6,
-      });
-    }
-
-    setMeteors(meteorArray);
-
-    const handleResize = () => {
-      setIsMobile(checkMobile());
-    };
-
-    window.addEventListener('resize', handleResize);
-
-    return () => {
-      window.removeEventListener('resize', handleResize);
-    };
-  }, [isDark]);
-
-  const meteorColor = isDark ? '#c084fc' : '#eab308';
-  const meteorGlow = isDark ? '#c084fc' : '#eab308';
-
+function SkillsList() {
   return (
-    <div className='pointer-events-none fixed inset-0 z-0 overflow-hidden bg-transparent'>
-      {meteors.map((meteor) => (
-        <div
-          key={meteor.id}
-          className='absolute opacity-40 sm:opacity-60'
-          style={{
-            top: `${meteor.top}px`,
-            left: `${meteor.left}%`,
-            width: isMobile ? '120px' : '160px',
-            height: '2px',
-            transform: 'rotate(-45deg)',
-            backgroundImage: `linear-gradient(to right, ${meteorColor}, transparent)`,
-            animation: `meteor ${meteor.duration}s linear infinite`,
-            filter: `drop-shadow(0 0 ${isMobile ? '3px' : '4px'} ${meteorGlow})`,
-          }}
-        >
+    <div className='relative w-full overflow-hidden [mask-image:linear-gradient(to_right,transparent,black_15%,black_85%,transparent)]'>
+      <div className='animate-marquee flex w-max hover:[animation-play-state:paused]'>
+        {[0, 1].map((copy) => (
           <div
-            className='absolute -mt-0.5 h-1 w-1 rounded-full sm:h-1.5 sm:w-1.5'
-            style={{
-              background: meteorColor,
-              boxShadow: `0 0 ${isMobile ? '4px 1px' : '6px 1px'} ${meteorGlow}`,
-            }}
-          />
-        </div>
-      ))}
+            key={copy}
+            aria-hidden={copy === 1}
+            className='flex items-center gap-6 pr-6 sm:gap-8 sm:pr-8'
+          >
+            {skills.map((skill) => (
+              <span
+                key={skill}
+                className='shrink-0 font-mono text-xs text-muted-foreground'
+              >
+                {skill}
+              </span>
+            ))}
+          </div>
+        ))}
+      </div>
     </div>
   );
 }
 
-function SkillsList() {
-  return (
-    <div className='mx-auto flex max-w-none flex-wrap justify-center gap-1.5 px-4 sm:gap-3'>
-      {skills.map((skill) => (
-        <span
-          key={skill}
-          className='inline-block cursor-default whitespace-nowrap rounded-full border border-yellow-600/40 bg-yellow-600/20 px-2 py-1 text-xs font-medium text-yellow-800 shadow-sm transition-all duration-300 hover:scale-105 hover:shadow-md dark:border-purple-500/30 dark:bg-purple-500/10 dark:text-purple-300 sm:px-3 sm:py-1.5 sm:text-sm'
-        >
-          {skill}
-        </span>
-      ))}
-    </div>
-  );
+function pickRandomIndex(except: number): number {
+  let next = Math.floor(Math.random() * roles.length);
+  if (next === except) next = (next + 1) % roles.length;
+  return next;
 }
 
 function SingleRoleDisplay() {
-  const currentRoleIndexRef = useRef(0);
-  const [displayRoleIndex, setDisplayRoleIndex] = useState(0);
-  const [animationClass, setAnimationClass] = useState('');
-  const [_cursorVisible, setCursorVisible] = useState(true);
+  const [displayIndex, setDisplayIndex] = useState(0);
+  const [reel, setReel] = useState<number[] | null>(null);
+  const [reelOffset, setReelOffset] = useState(0);
   const timeoutsRef = useRef<ReturnType<typeof setTimeout>[]>([]);
   const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
+  const spinningRef = useRef(false);
+  const currentIndexRef = useRef(0);
 
   useEffect(() => {
-    const clearAllTimeouts = () => {
-      timeoutsRef.current.forEach((timeout) => clearTimeout(timeout));
-      timeoutsRef.current = [];
-    };
-
-    const startAnimationCycle = () => {
-      clearAllTimeouts();
-      setCursorVisible(false);
-
-      const timeout1 = setTimeout(() => {
-        setAnimationClass('animate-role-exit');
-
-        const timeout2 = setTimeout(() => {
-          const nextIndex = (currentRoleIndexRef.current + 1) % roles.length;
-          currentRoleIndexRef.current = nextIndex;
-          setDisplayRoleIndex(nextIndex);
-          setAnimationClass('animate-role-enter');
-
-          const timeout3 = setTimeout(() => {
-            setAnimationClass('');
-
-            const timeout4 = setTimeout(() => {
-              setCursorVisible(true);
-            }, 100);
-
-            timeoutsRef.current.push(timeout4);
-          }, 500);
-
-          timeoutsRef.current.push(timeout3);
-        }, 250);
-
-        timeoutsRef.current.push(timeout2);
-      }, 500);
-
-      timeoutsRef.current.push(timeout1);
-    };
-
-    const initialTimeout = setTimeout(() => {
-      startAnimationCycle();
-
-      intervalRef.current = setInterval(() => {
-        startAnimationCycle();
-      }, 2000);
-    }, 1000);
-
+    const timeouts = timeoutsRef.current;
     return () => {
-      clearTimeout(initialTimeout);
+      timeouts.forEach((t) => {
+        clearTimeout(t);
+      });
       if (intervalRef.current) clearInterval(intervalRef.current);
-      clearAllTimeouts();
     };
   }, []);
 
-  const currentRole = roles[displayRoleIndex];
-  const roleSpecialization = currentRole
-    ? currentRole.split(' ').slice(0, -1).join(' ')
-    : '';
+  const spin = () => {
+    if (spinningRef.current) return;
+    spinningRef.current = true;
+
+    const current = currentIndexRef.current;
+    const final = pickRandomIndex(current);
+    const steps: number[] = [];
+    for (let i = 0; i < 10; i++) {
+      steps.push(Math.floor(Math.random() * roles.length));
+    }
+    steps.push(final);
+
+    setReel([current, ...steps]);
+    setReelOffset(0);
+
+    const t1 = setTimeout(() => {
+      setReelOffset(-(steps.length * 1.5));
+    }, 20);
+
+    const t2 = setTimeout(() => {
+      currentIndexRef.current = final;
+      setDisplayIndex(final);
+      setReel(null);
+      setReelOffset(0);
+      spinningRef.current = false;
+    }, 1120);
+
+    timeoutsRef.current.push(t1, t2);
+  };
+
+  useEffect(() => {
+    const initial = setTimeout(() => {
+      spin();
+      intervalRef.current = setInterval(spin, 2000);
+    }, 1200);
+    return () => {
+      clearTimeout(initial);
+    };
+  }, []);
+
+  const spec = (i: number) =>
+    roles[i] ? roles[i].split(' ').slice(0, -1).join(' ') : '';
 
   return (
-    <div className='mb-6 text-4xl sm:mb-8 sm:text-3xl md:text-4xl lg:text-5xl'>
-      <div className='text-center'>
-        <div className='relative inline-flex items-center'>
-          <div className='relative flex h-[1.4em] w-[12ch] items-center justify-end overflow-hidden sm:w-[12ch]'>
-            <div
-              className={`whitespace-nowrap font-medium text-yellow-600 dark:text-purple-400 ${animationClass}`}
-            >
-              {roleSpecialization}
-            </div>
-          </div>
-          <span className='ml-1 font-medium text-muted-foreground sm:ml-2'>
-            Engineer&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    <div className='flex items-baseline justify-center font-mono text-base sm:text-lg'>
+      <span className='relative inline-flex h-[1.5em] w-[17ch] justify-end overflow-hidden text-right'>
+        {reel ? (
+          <span
+            className='flex w-full flex-col transition-transform duration-1000 ease-out'
+            style={{ transform: `translateY(${String(reelOffset)}em)` }}
+          >
+            {reel.map((r, i) => (
+              <span
+                key={`${String(i)}-${String(r)}`}
+                className='h-[1.5em] w-full whitespace-nowrap tabular-nums leading-[1.5em]'
+              >
+                {spec(r)}
+              </span>
+            ))}
           </span>
-        </div>
-      </div>
+        ) : (
+          <span className='h-[1.5em] w-full whitespace-nowrap tabular-nums leading-[1.5em]'>
+            {spec(displayIndex)}
+          </span>
+        )}
+      </span>
+      <span className='ml-2 text-muted-foreground'>Engineer</span>
     </div>
   );
 }
@@ -290,7 +236,7 @@ function SingleRoleDisplay() {
 export default function Home() {
   const [isDark, setIsDark] = useState(false);
   const [mounted, setMounted] = useState(false);
-  const [cursorVisible, setCursorVisible] = useState(true);
+  const [modalOpen, setModalOpen] = useState(false);
 
   useEffect(() => {
     setMounted(true);
@@ -309,14 +255,15 @@ export default function Home() {
   }, []);
 
   useEffect(() => {
-    const interval = setInterval(() => {
-      setCursorVisible((prev) => !prev);
-    }, 1000);
-
-    return () => {
-      clearInterval(interval);
+    if (!modalOpen) return;
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') setModalOpen(false);
     };
-  }, []);
+    window.addEventListener('keydown', onKey);
+    return () => {
+      window.removeEventListener('keydown', onKey);
+    };
+  }, [modalOpen]);
 
   const toggleTheme = () => {
     const newIsDark = !isDark;
@@ -324,26 +271,6 @@ export default function Home() {
     document.documentElement.classList.toggle('dark', newIsDark);
     document.documentElement.style.colorScheme = newIsDark ? 'dark' : 'light';
     window.localStorage.setItem('theme', newIsDark ? 'dark' : 'light');
-  };
-
-  const openCalendarPopup = () => {
-    const width = 900;
-    const height = 760;
-    const left = window.screenX + (window.outerWidth - width) / 2;
-    const top = window.screenY + (window.outerHeight - height) / 2;
-
-    const popup = window.open(
-      BOOKING_URL,
-      'proton-booking',
-      `popup=yes,width=${width},height=${height},left=${left},top=${top},resizable=yes,scrollbars=yes`,
-    );
-
-    if (popup) {
-      popup.focus();
-      return;
-    }
-
-    window.open(BOOKING_URL, '_blank', 'noopener,noreferrer');
   };
 
   if (!mounted) {
@@ -358,60 +285,149 @@ export default function Home() {
 
   return (
     <div className='relative flex min-h-screen w-full flex-col bg-background text-foreground'>
-      <MeteorRain isDark={isDark} />
-
-      <div className='fixed left-1/2 top-4 z-20 -translate-x-1/2 transform'>
-        <div className='flex items-center gap-1 rounded-full border border-blue-500/30 bg-blue-500/10 px-3 py-1 text-xs font-medium text-blue-600 shadow-sm dark:border-blue-400/30 dark:bg-blue-400/10 dark:text-blue-400'>
-          <span className='text-xs'>🤖</span>
-          Made with AI
-        </div>
-      </div>
-
-      <main className='relative z-10 w-full flex-1'>
+      <header className='fixed right-5 top-5 z-20 sm:right-8 sm:top-8'>
         <ThemeToggle isDark={isDark} onToggle={toggleTheme} />
+      </header>
 
-        <section className='relative flex min-h-screen items-center overflow-hidden'>
-          <div className='absolute inset-0 bg-gradient-to-br from-yellow-500/5 via-transparent to-transparent dark:from-purple-500/5' />
+      <main className='relative z-10 flex w-full flex-1 items-center justify-center px-6'>
+        <article className='fade-in mx-auto grid w-full max-w-3xl gap-x-10 gap-y-8 py-24 sm:grid-cols-2 sm:gap-x-12 sm:gap-y-10'>
+          <div className='flex flex-col items-end gap-3 text-right sm:gap-4'>
+            <nav
+              aria-label='Social links'
+              className='flex items-center justify-end gap-3 sm:gap-4'
+            >
+              {socialLinks.map((link) => {
+                const Icon = link.icon;
+                const isInternal = link.href.startsWith('/');
 
-          <div className='relative mx-auto w-full max-w-6xl px-4 py-6 sm:px-6 sm:py-8'>
-            <div className='fade-in text-center'>
-              <div className='mb-6 sm:mb-8'>
-                <div className='flex flex-wrap justify-center gap-2 sm:gap-3 md:gap-4'>
-                  {socialLinks.map((link) => {
-                    const Icon = link.icon;
-                    const isInternal = link.href.startsWith('/');
+                if (isInternal) {
+                  return (
+                    <Link
+                      key={link.name}
+                      href={link.href}
+                      className='social-icon'
+                      title={link.name}
+                    >
+                      <Icon />
+                    </Link>
+                  );
+                }
 
-                    if (isInternal) {
-                      return (
-                        <Link
-                          key={link.name}
-                          href={link.href}
-                          className='social-badge-mobile flex h-8 w-8 items-center justify-center rounded bg-card transition-all duration-200 hover:-translate-y-1 hover:scale-125 hover:bg-accent dark:hover:shadow-lg sm:h-10 sm:w-10'
-                          title={link.name}
-                        >
-                          <Icon className='h-4 w-4 text-yellow-600 dark:text-purple-400 sm:h-5 sm:w-5' />
-                        </Link>
-                      );
-                    }
+                if (link.isPopup) {
+                  return (
+                    <button
+                      type='button'
+                      key={link.name}
+                      onClick={() => {
+                        setModalOpen(true);
+                      }}
+                      className='social-icon'
+                      title={link.name}
+                      aria-label='Open booking modal'
+                    >
+                      <Icon />
+                    </button>
+                  );
+                }
 
-                    if (link.isPopup) {
-                      return (
-                        <button
-                          type='button'
-                          key={link.name}
-                          onClick={openCalendarPopup}
-                          className='social-badge-mobile flex h-8 w-8 items-center justify-center rounded bg-card transition-all duration-200 hover:-translate-y-1 hover:scale-125 hover:bg-accent dark:hover:shadow-lg sm:h-10 sm:w-10'
-                          title={link.name}
-                          aria-label='Open booking page in popup'
-                        >
-                          <Icon className='h-4 w-4 text-yellow-600 dark:text-purple-400 sm:h-5 sm:w-5' />
-                        </button>
-                      );
-                    }
+                return (
+                  <a
+                    key={link.name}
+                    href={link.href}
+                    target='_blank'
+                    rel='noopener noreferrer'
+                    className='social-icon'
+                    title={link.name}
+                  >
+                    <Icon />
+                  </a>
+                );
+              })}
+            </nav>
 
-                    return (
-                      <a
-                        key={link.name}
-                        href={link.href}
-                        target='_blank'
-                        rel='noopener norefer
+            <h1 className='whitespace-nowrap font-mono text-4xl font-medium tracking-tight sm:text-5xl'>
+              <span>
+                <span className='text-muted-foreground'>Abraham </span>
+                <span className='text-foreground'>Guimbao</span>
+              </span>
+            </h1>
+
+            <SingleRoleDisplay />
+
+            <div className='font-mono text-xs uppercase tracking-wider text-muted-foreground'>
+              Contractor / Freelance — B2B
+            </div>
+
+            <p className='font-mono text-xs tracking-wider text-muted-foreground'>
+              <a
+                href='https://42.fr'
+                target='_blank'
+                rel='noopener noreferrer'
+                className='text-foreground underline decoration-dotted underline-offset-4 transition-colors hover:text-muted-foreground'
+              >
+                42 Paris
+              </a>{' '}
+              Graduate
+            </p>
+          </div>
+
+          <div className='flex flex-col items-start gap-4 text-left sm:gap-5 sm:border-l sm:border-border sm:pl-12'>
+            <div className='flex flex-col gap-4 sm:pt-2'>
+              <p className='text-sm leading-relaxed text-muted-foreground'>
+                Natural <span className='text-foreground'>problem solver</span>{' '}
+                and <span className='text-foreground'>proactive</span> builder
+                that treats <span className='text-foreground'>pragmatism</span>,{' '}
+                <span className='text-foreground'>
+                  dynamic modern solutions
+                </span>
+                , and <span className='text-foreground'>agility</span> as
+                priorities.
+              </p>
+              <p className='text-sm leading-relaxed text-muted-foreground'>
+                I have years of experience interacting with different types of
+                software and infrastructure in diverse environments and teams,
+                and I love learning new things, architecturing useful tools, and
+                tinkering with new technologies.
+              </p>
+            </div>
+          </div>
+
+          <div className='w-full sm:col-span-2'>
+            <SkillsList />
+          </div>
+        </article>
+      </main>
+
+      {modalOpen && (
+        <div className='fixed inset-0 z-50 flex items-center justify-center bg-black/80 p-4'>
+          <div className='relative max-h-[90vh] w-full max-w-4xl overflow-hidden rounded-lg border border-border bg-card shadow-2xl'>
+            <div className='flex items-center justify-between border-b border-border px-4 py-3'>
+              <h2 className='text-lg font-semibold text-foreground'>
+                Schedule a Meeting
+              </h2>
+              <button
+                type='button'
+                onClick={() => {
+                  setModalOpen(false);
+                }}
+                className='flex h-8 w-8 items-center justify-center rounded-lg text-muted-foreground transition-colors hover:bg-accent hover:text-foreground'
+                aria-label='Close modal'
+              >
+                <X className='h-4 w-4' />
+              </button>
+            </div>
+            <div className='h-[600px] bg-white'>
+              <iframe
+                src={BOOKING_URL}
+                className='h-full w-full border-0'
+                title='Schedule Meeting'
+                // eslint-disable-next-line @eslint-react/dom/no-unsafe-iframe-sandbox -- allow-same-origin required for Proton Calendar booking
+                sandbox='allow-scripts allow-forms allow-popups allow-same-origin'
+              />
+            </div>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}
