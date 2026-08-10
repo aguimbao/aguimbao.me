@@ -204,7 +204,7 @@ function SingleRoleDisplay() {
     roles[i] ? roles[i].split(' ').slice(0, -1).join(' ') : '';
 
   return (
-    <div className='flex items-baseline justify-center font-mono text-base sm:text-lg'>
+    <div className='flex items-baseline justify-end font-mono text-base sm:text-lg'>
       <span className='relative inline-flex h-[1.5em] w-[17ch] justify-end overflow-hidden text-right'>
         {reel ? (
           <span
@@ -271,16 +271,16 @@ export default function Home() {
 
   return (
     <div className='relative flex min-h-screen w-full flex-col bg-background text-foreground'>
-      <header className='fixed right-5 top-5 z-20 sm:right-8 sm:top-8'>
+      <header className='absolute right-4 top-4 z-30 sm:right-8 sm:top-8'>
         <ThemeToggle isDark={isDark} onToggle={toggleTheme} />
       </header>
 
       <main className='relative z-10 flex w-full flex-1 items-center justify-center px-6'>
-        <article className='fade-in mx-auto grid w-full max-w-3xl gap-x-10 gap-y-8 py-24 sm:grid-cols-2 sm:gap-x-12 sm:gap-y-10'>
-          <div className='flex flex-col items-end gap-3 text-right sm:gap-4'>
+        <article className='fade-in mx-auto grid w-full max-w-3xl gap-x-10 gap-y-8 px-1 py-20 sm:grid-cols-2 sm:gap-x-12 sm:gap-y-10 sm:px-0'>
+          <div className='flex min-w-0 flex-col items-end gap-3 text-right sm:gap-4'>
             <nav
               aria-label='Social links'
-              className='flex items-center justify-end gap-3 sm:gap-4'
+              className='flex flex-wrap items-center justify-end gap-3 sm:flex-nowrap sm:gap-4'
             >
               {socialLinks.map((link) => {
                 const Icon = link.icon;
@@ -314,7 +314,7 @@ export default function Home() {
               })}
             </nav>
 
-            <h1 className='whitespace-nowrap font-mono text-4xl font-medium tracking-tight sm:text-5xl'>
+            <h1 className='text-right font-mono text-4xl font-medium tracking-tight sm:whitespace-nowrap sm:text-5xl'>
               <span>
                 <span className='text-muted-foreground'>Abraham </span>
                 <span className='text-foreground'>Guimbao</span>
@@ -323,11 +323,11 @@ export default function Home() {
 
             <SingleRoleDisplay />
 
-            <div className='font-mono text-xs uppercase tracking-wider text-muted-foreground'>
+            <div className='self-end font-mono text-right text-xs uppercase tracking-wider text-muted-foreground'>
               Contractor / Freelance — B2B
             </div>
 
-            <p className='font-mono text-xs tracking-wider text-muted-foreground'>
+            <p className='self-end font-mono text-right text-xs tracking-wider text-muted-foreground'>
               <a
                 href='https://42.fr'
                 target='_blank'
@@ -340,8 +340,8 @@ export default function Home() {
             </p>
           </div>
 
-          <div className='flex flex-col items-start gap-4 text-left sm:gap-5 sm:border-l sm:border-border sm:pl-12'>
-            <div className='flex flex-col gap-4 sm:pt-2'>
+          <div className='flex min-w-0 flex-col items-start gap-4 border-t border-border pt-8 text-left sm:gap-5 sm:border-l sm:border-t-0 sm:pl-12 sm:pt-0'>
+            <div className='flex w-full min-w-0 flex-col gap-4 sm:pt-2'>
               <p className='text-sm leading-relaxed text-muted-foreground'>
                 Natural <span className='text-foreground'>problem solver</span>{' '}
                 and <span className='text-foreground'>proactive</span> builder
@@ -361,7 +361,7 @@ export default function Home() {
             </div>
           </div>
 
-          <div className='w-full sm:col-span-2'>
+          <div className='w-full min-w-0 sm:col-span-2'>
             <SkillsList />
           </div>
         </article>
